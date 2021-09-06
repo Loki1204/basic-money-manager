@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const TransactionSchema = new mongoose.Schema({
+  creator: String,
   text: {
     type: String,
     trim: true,

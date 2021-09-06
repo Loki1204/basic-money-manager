@@ -1,22 +1,29 @@
+import React from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+
 import "./App.css";
-import Header from "./components/Header";
-import Balance from "./components/Balance";
-import IncomeExpenses from "./components/IncomeExpenses";
-import TransactionList from "./components/TransactionList";
-import AddTransaction from "./components/AddTransaction";
+import Navbar from "./components/Navbar/Navbar";
+import Home from "./components/Home/Home";
+import Auth from "./components/Auth/Auth";
+
 import { GlobalProvider } from "./context/GlobalState";
-function App() {
+import { AuthGlobalProvider } from "./context/AuthGlobalState";
+const App = () => {
   return (
-    <GlobalProvider>
-      <Header></Header>
-      <div className="container">
-        <Balance />
-        <IncomeExpenses />
-        <TransactionList />
-        <AddTransaction />
-      </div>
-    </GlobalProvider>
+    <BrowserRouter>
+      <AuthGlobalProvider>
+        <GlobalProvider>
+          <Navbar />
+          <div className="container">
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <Route path="/auth" exact component={Auth} />
+            </Switch>
+          </div>
+        </GlobalProvider>
+      </AuthGlobalProvider>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

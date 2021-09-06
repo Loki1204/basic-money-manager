@@ -1,7 +1,7 @@
 import Transaction from "../models/Transactions.js";
 
 // @desc Get all transactions
-// @route GET /api/v1/transactions
+// @route GET /transactions
 //  @access Public
 export const getTransactions = async (req, res, next) => {
   try {
@@ -9,7 +9,6 @@ export const getTransactions = async (req, res, next) => {
 
     return res.status(200).json({
       success: true,
-      count: transactions.length,
       data: transactions,
     });
   } catch (error) {
@@ -21,17 +20,21 @@ export const getTransactions = async (req, res, next) => {
 };
 
 // @desc Add transactions
-// @route POST /api/v1/transactions
+// @route POST /transactions
 //  @access Public
 export const addTransaction = async (req, res, next) => {
   try {
-    const { text, amount } = req.body;
+    const { text, amount, creator } = req.body;
 
-    const transaction = await Transaction.create(req.body);
+    const newTransaction = await Transaction.create({
+      text,
+      amount,
+      creator,
+    });
 
     return res.status(201).json({
       success: true,
-      data: transaction,
+      data: newTransaction,
     });
   } catch (error) {
     if (error.name === "ValidationError") {
@@ -50,7 +53,7 @@ export const addTransaction = async (req, res, next) => {
 };
 
 // @desc Delete transaction
-// @route DELETE /api/v1/transactions/:id
+// @route DELETE /transactions/:id
 //  @access Public
 export const deleteTransaction = async (req, res, next) => {
   try {
